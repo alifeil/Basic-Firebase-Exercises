@@ -12,7 +12,7 @@ class PostViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
     private lateinit var textView: TextView
     lateinit var deleteButton: Button
 
-    fun setPost(activity: FragmentActivity, post: Post){
+    fun setPost(activity: FragmentActivity, post: Post, userId:String?){
         nameTextView = itemView.findViewById(R.id.postNameTextView)
         timeTextView = itemView.findViewById(R.id.postTimeTextView)
         textView = itemView.findViewById(R.id.postTextView)
@@ -22,7 +22,9 @@ class PostViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
         timeTextView.text = post.time
         textView.text = post.text
 
-
+        if(post.uid != userId){
+            deleteButton.visibility = View.GONE
+        }
 
         }
 
