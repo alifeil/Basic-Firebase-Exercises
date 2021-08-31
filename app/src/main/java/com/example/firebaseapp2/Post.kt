@@ -6,5 +6,5 @@ data class Post (
     var type: String? = null,
     var postUrl : String? = null,
     var time: String? = null
-        )
+)
 
