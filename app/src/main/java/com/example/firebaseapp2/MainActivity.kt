@@ -13,6 +13,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlin.math.log
 
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         postButton = findViewById(R.id.mainPostButon)
         recyclerView = findViewById(R.id.mainrecyclerview)
         auth = Firebase.auth
+        database = Firebase.database
 
         logoutButton.setOnClickListener {
             auth.signOut()
@@ -49,10 +51,10 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val reference = database.getReference("posts")
-        val options = FirebaseRecyclerOptions.Builder<Post>()
-            .setQuery(reference, Post::class.java)
-            .build()
+    val reference = database.getReference("posts")
+      val options = FirebaseRecyclerOptions.Builder<Post>()
+         .setQuery(reference, Post::class.java)
+         .build()
         val adapter = object : FirebaseRecyclerAdapter<Post, PostViewHolder>(options) {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
                 val view = LayoutInflater.from(parent.context)
@@ -61,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onBindViewHolder(holder: PostViewHolder, position:Int, model: Post) {
-                holder.setPost(this@MainActivity,model)
+                holder.setPost(this@MainActivity,model, auth.currentUser!!.uid)
 
                 val postKey = getRef(position).key!!
 
